@@ -2,6 +2,10 @@ const dogUrl = 'http://localhost:3000/dogs'
 
 const registeredDogTable = document.getElementById('table-body')
 
+const editNameField = document.getElementById('edit-dog-name')
+const editBreedField = document.getElementById('edit-dog-breed')
+const editSexField = document.getElementById('edit-dog-sex')
+
 // fetch data and render registered dogs
 fetch(dogUrl)
     .then(r => r.json())
@@ -20,6 +24,7 @@ function renderDogs(allDogs) {
 
         const dogEditBtn = document.createElement('button')
         dogEditBtn.innerText = "Edit Dog"
+        dogEditBtn.onclick = () => editDog(singleDog)
 
         const dogBtnCell = document.createElement('td')
         dogBtnCell.appendChild(dogEditBtn)
@@ -29,4 +34,11 @@ function renderDogs(allDogs) {
 
         registeredDogTable.appendChild(dogRow)
     })
+}
+
+// render dog data in "edit existing dog" form
+function editDog(singleDog) {
+    editNameField.value = singleDog.name
+    editBreedField.value = singleDog.breed
+    editSexField.value = singleDog.sex
 }
