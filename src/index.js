@@ -24,6 +24,7 @@ function fetchDogData() {
 }
 
 function renderDogs(allDogs) {
+    registeredDogTable.innerText = ''
     allDogs.forEach((singleDog) => {
         const dogName = document.createElement('td')
         dogName.innerText = singleDog.name
@@ -78,6 +79,5 @@ function updateDog() {
         })
     })
     editDogForm.reset()
-    registeredDogTable.innerText = ''
     fetchDogData()
 }
