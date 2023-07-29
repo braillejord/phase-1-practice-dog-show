@@ -1,6 +1,13 @@
 const dogUrl = 'http://localhost:3000/dogs'
 
+// elements needed for functions
 const registeredDogTable = document.getElementById('table-body')
+
+const editDogForm = document.getElementById('dog-form')
+editDogForm.onsubmit = (e) => {
+    e.preventDefault()
+    updateDog()
+}
 
 const editNameField = document.getElementById('edit-dog-name')
 const editBreedField = document.getElementById('edit-dog-breed')
@@ -31,6 +38,7 @@ function renderDogs(allDogs) {
 
         const dogRow = document.createElement('tr')
         dogRow.append(dogName, dogBreed, dogSex, dogBtnCell)
+        dogRow.id = singleDog.id;
 
         registeredDogTable.appendChild(dogRow)
     })
@@ -38,7 +46,30 @@ function renderDogs(allDogs) {
 
 // render dog data in "edit existing dog" form
 function editDog(singleDog) {
+    editDogForm.id = singleDog.id
     editNameField.value = singleDog.name
     editBreedField.value = singleDog.breed
     editSexField.value = singleDog.sex
 }
+
+// on submit, send PATCH request to update dog info
+function updateDog() {
+    let dogId = editDogForm.id
+    let newDogName = editNameField.value
+    let newDogBreed =editBreedField.value
+    let newDogSex = editSexField.value
+
+    fetch(dogUrl + "/" + dogId, {
+        method: 'PATCH',
+        headers: {
+            'content-type': 'application/json',
+            'accepts': 'application/json'
+        },
+        body: JSON.stringify( {
+            name: newDogName,
+            breed: newDogBreed,
+            sex: newDogSex
+        })
+    })
+}
+
