@@ -13,10 +13,15 @@ const editNameField = document.getElementById('edit-dog-name')
 const editBreedField = document.getElementById('edit-dog-breed')
 const editSexField = document.getElementById('edit-dog-sex')
 
+// core deliverable functions
+fetchDogData()
+
 // fetch data and render registered dogs
-fetch(dogUrl)
+function fetchDogData() {
+    fetch(dogUrl)
     .then(r => r.json())
     .then(dogData => renderDogs(dogData))
+}
 
 function renderDogs(allDogs) {
     allDogs.forEach((singleDog) => {
@@ -53,6 +58,7 @@ function editDog(singleDog) {
 }
 
 // on submit, send PATCH request to update dog info
+// re-render table with new dog info
 function updateDog() {
     let dogId = editDogForm.id
     let newDogName = editNameField.value
@@ -71,5 +77,7 @@ function updateDog() {
             sex: newDogSex
         })
     })
+    editDogForm.reset()
+    registeredDogTable.innerText = ''
+    fetchDogData()
 }
-
